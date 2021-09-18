@@ -13,10 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', \App\Http\Livewire\Home::class)->name('home');
+    Route::get('/roles', \App\Http\Livewire\Roles::class)->name('roles');
+    Route::get('/user-roles', \App\Http\Livewire\UserRoles::class)->name('user-roles');
+});
+
